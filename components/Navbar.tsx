@@ -1,10 +1,16 @@
 // components/Navbar.tsx
 import Link from 'next/link';
+import { getSession } from "@/lib/session";
+import { logoutUser } from "@/app/actions/auth";
 
-export function Navbar() {
+export async function Navbar() {
+  // Check if the user is securely logged in
+  const session = await getSession();
+
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/90 backdrop-blur-md">
       <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-10">
+        
         {/* Left: Logo / Brand */}
         <Link href="/" className="flex shrink-0 items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 text-2xl font-extrabold text-white shadow-md">
@@ -52,18 +58,43 @@ export function Navbar() {
 
         {/* Right: Auth + Sell */}
         <div className="flex shrink-0 items-center gap-5 text-base">
-          <Link
-            href="/login"
-            className="font-semibold text-slate-700 transition hover:text-blue-600"
-          >
-            Log In
-          </Link>
-          <Link
-            href="/register"
-            className="font-semibold text-slate-700 transition hover:text-blue-600"
-          >
-            Sign Up
-          </Link>
+          {session ? (
+            // IF LOGGED IN: Show Dashboard and Logout
+            <>
+              <Link
+                href="/dashboard"
+                className="font-semibold text-slate-700 transition hover:text-blue-600"
+              >
+                Dashboard
+              </Link>
+              <form action={logoutUser}>
+                <button
+                  type="submit"
+                  className="font-semibold text-slate-700 transition hover:text-blue-600"
+                >
+                  Log Out
+                </button>
+              </form>
+            </>
+          ) : (
+            // IF NOT LOGGED IN: Show Login and Sign Up
+            <>
+              <Link
+                href="/login"
+                className="font-semibold text-slate-700 transition hover:text-blue-600"
+              >
+                Log In
+              </Link>
+              <Link
+                href="/register"
+                className="font-semibold text-slate-700 transition hover:text-blue-600"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
+
+          {/* Sell Button remains visible to everyone */}
           <Link
             href="/listings/create"
             className="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-blue-700"
