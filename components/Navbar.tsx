@@ -3,23 +3,72 @@ import Link from 'next/link';
 
 export function Navbar() {
   return (
-    <nav className="w-full border-b border-default-200 bg-background/70 backdrop-blur-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="font-bold text-lg tracking-tight">
-          ExchangePlatform
+    <nav className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/90 backdrop-blur-md">
+      <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-10">
+        {/* Left: Logo / Brand */}
+        <Link href="/" className="flex shrink-0 items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 text-2xl font-extrabold text-white shadow-md">
+            M
+          </div>
+          <div className="flex flex-col leading-none">
+            <span className="text-2xl font-extrabold tracking-tight text-slate-900">
+              MaviPazar
+            </span>
+            <span className="text-sm font-medium text-blue-600">
+              Istanbul Marketplace
+            </span>
+          </div>
         </Link>
-        
-        {/* Core Auth Links */}
-        <div className="flex gap-4 items-center text-sm font-medium">
-          <Link href="/login" className="text-default-600 hover:text-foreground transition-colors">
+
+        {/* Center: Categories */}
+        <div className="hidden lg:flex items-center gap-7 text-base font-medium text-slate-700">
+          <Link href="/listings?category=electronics" className="transition hover:text-blue-600">
+            Electronics
+          </Link>
+          <Link href="/listings?category=books" className="transition hover:text-blue-600">
+            Books
+          </Link>
+          <Link href="/listings?category=fashion" className="transition hover:text-blue-600">
+            Fashion
+          </Link>
+          <Link href="/listings?category=sports" className="transition hover:text-blue-600">
+            Sports
+          </Link>
+          <Link href="/listings?category=furniture" className="transition hover:text-blue-600">
+            Furniture
+          </Link>
+          <Link href="/listings?category=others" className="transition hover:text-blue-600">
+            Others
+          </Link>
+
+          <Link
+            href="/listings"
+            className="flex items-center gap-2 font-medium text-slate-800 transition hover:text-blue-600"
+          >
+            <span className="text-lg">⌘</span>
+            <span>All Categories</span>
+          </Link>
+        </div>
+
+        {/* Right: Auth + Sell */}
+        <div className="flex shrink-0 items-center gap-5 text-base">
+          <Link
+            href="/login"
+            className="font-semibold text-slate-700 transition hover:text-blue-600"
+          >
             Log In
           </Link>
-          <Link 
-            href="/register" 
-            className="bg-foreground text-background px-4 py-1.5 rounded-md hover:opacity-90 transition-opacity"
+          <Link
+            href="/register"
+            className="font-semibold text-slate-700 transition hover:text-blue-600"
           >
             Sign Up
+          </Link>
+          <Link
+            href="/listings/create"
+            className="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-blue-700"
+          >
+            Sell
           </Link>
         </div>
       </div>
