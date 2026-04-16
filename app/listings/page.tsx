@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ListingCard from "@/components/ListingCard";
 
 type Listing = {
@@ -21,6 +21,7 @@ export default function ListingsPage() {
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
     async function fetchListings() {
@@ -43,6 +44,28 @@ export default function ListingsPage() {
 
     fetchListings();
   }, []);
+
+  const categories = useMemo(() => {
+    const uniqueCategories = Array.from(
+      new Set(
+        listings
+          .map((listing) => listing.category)
+          .filter((category): category is string => Boolean(category))
+      )
+    );
+
+    return ["All", ...uniqueCategories];
+  }, [listings]);
+
+  const filteredListings = useMemo(() => {
+    if (selectedCategory === "All") {
+      return listings;
+    }
+
+    return listings.filter(
+      (listing) => listing.category === selectedCategory
+    );
+  }, [listings, selectedCategory]);
 
   if (loading) {
     return (
@@ -107,7 +130,39 @@ export default function ListingsPage() {
         </p>
       </div>
 
-      {listings.length === 0 ? (
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "12px",
+          marginBottom: "28px",
+        }}
+      >
+        {categories.map((category) => {
+          const isActive = selectedCategory === category;
+
+          return (
+            <button
+              key={category}
+              onClick={() => setSelectedCategory(category)}
+              style={{
+                padding: "10px 16px",
+                borderRadius: "999px",
+                border: isActive ? "1px solid #2563eb" : "1px solid #d1d5db",
+                background: isActive ? "#2563eb" : "#ffffff",
+                color: isActive ? "#ffffff" : "#374151",
+                fontWeight: 600,
+                fontSize: "14px",
+                cursor: "pointer",
+              }}
+            >
+              {category}
+            </button>
+          );
+        })}
+      </div>
+
+      {filteredListings.length === 0 ? (
         <div
           style={{
             padding: "24px",
@@ -116,7 +171,9 @@ export default function ListingsPage() {
             background: "#ffffff",
           }}
         >
-          <p style={{ margin: 0, color: "#6b7280" }}>No listings available.</p>
+          <p style={{ margin: 0, color: "#6b7280" }}>
+            No listings found for this category.
+          </p>
         </div>
       ) : (
         <div
@@ -128,7 +185,7 @@ export default function ListingsPage() {
             alignItems: "start",
           }}
         >
-          {listings.map((listing) => (
+          {filteredListings.map((listing) => (
             <ListingCard key={listing.id} listing={listing} />
           ))}
         </div>
