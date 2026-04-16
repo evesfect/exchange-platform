@@ -1,32 +1,217 @@
-import { Button, Card } from "@heroui/react";
+"use client";
 
-export default function ListingDetailPage({ params }: { params: { id: string } }) {
+import { useEffect, useState } from "react";
+import Link from "next/link";
+
+type Listing = {
+  id: number;
+  title: string;
+  description: string;
+  price: string;
+  imageUrl: string | null;
+  category: string | null;
+  condition: string | null;
+  deliveryMethod: string | null;
+  sellerName: string | null;
+  location: string | null;
+  createdAt: string;
+};
+
+export default function ListingDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const [listing, setListing] = useState<Listing | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function fetchListing() {
+      try {
+        const resolvedParams = await params;
+        const response = await fetch(`/api/listings/${resolvedParams.id}`);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch listing");
+        }
+
+        const data = await response.json();
+        setListing(data);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load listing.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchListing();
+  }, [params]);
+
+  if (loading) {
+    return (
+      <div style={{ padding: "32px", maxWidth: "1000px", margin: "0 auto" }}>
+        <p style={{ color: "#6b7280" }}>Loading listing...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{ padding: "32px", maxWidth: "1000px", margin: "0 auto" }}>
+        <p style={{ color: "#dc2626" }}>{error}</p>
+      </div>
+    );
+  }
+
+  if (!listing) {
+    return (
+      <div style={{ padding: "32px", maxWidth: "1000px", margin: "0 auto" }}>
+        <p style={{ color: "#6b7280" }}>Listing not found.</p>
+      </div>
+    );
+  }
+
   return (
-    <main className="max-w-5xl mx-auto p-10 w-full grid md:grid-cols-2 gap-10">
-      {/* Image Gallery Stub */}
-      <div className="bg-default-100 rounded-xl h-[400px] flex items-center justify-center">
-        <p className="text-default-400">High-Res Image Gallery</p>
+    <div
+      style={{
+        maxWidth: "1000px",
+        margin: "0 auto",
+        padding: "32px 24px",
+      }}
+    >
+      <div style={{ marginBottom: "20px" }}>
+        <Link
+          href="/listings"
+          style={{
+            textDecoration: "none",
+            color: "#2563eb",
+            fontSize: "14px",
+            fontWeight: 500,
+          }}
+        >
+          ← Back to listings
+        </Link>
       </div>
 
-      {/* Listing Details */}
-      <div className="space-y-6">
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1.2fr 1fr",
+          gap: "28px",
+          alignItems: "start",
+        }}
+      >
         <div>
-          <h1 className="text-4xl font-bold">Vintage Mechanical Keyboard</h1>
-          <p className="text-default-500 mt-2">Listing ID: {params.id}</p>
+          {listing.imageUrl && (
+            <img
+              src={listing.imageUrl}
+              alt={listing.title}
+              style={{
+                width: "100%",
+                maxHeight: "500px",
+                objectFit: "cover",
+                borderRadius: "18px",
+                display: "block",
+                boxShadow: "0 6px 18px rgba(0, 0, 0, 0.08)",
+              }}
+            />
+          )}
         </div>
-        
-        <Card className="overflow-hidden">
-          <div className="p-6">
-            <h2 className="text-2xl font-semibold mb-4">Estimated Value: $150</h2>
-            <p className="text-default-600 mb-6">
-              Perfect condition. Looking to exchange for modern wireless peripherals or audio gear.
-            </p>
-            <Button variant="primary" className="w-full">
-              Make an Offer
-            </Button>
+
+        <div
+          style={{
+            border: "1px solid #e5e7eb",
+            borderRadius: "18px",
+            padding: "24px",
+            background: "#ffffff",
+            boxShadow: "0 4px 14px rgba(0, 0, 0, 0.05)",
+          }}
+        >
+          <div
+            style={{
+              display: "inline-block",
+              marginBottom: "12px",
+              padding: "5px 12px",
+              borderRadius: "999px",
+              background: "#f3f4f6",
+              fontSize: "12px",
+              fontWeight: 600,
+              color: "#374151",
+            }}
+          >
+            {listing.category ?? "General"}
           </div>
-        </Card>
+
+          <h1
+            style={{
+              margin: "0 0 12px 0",
+              fontSize: "32px",
+              lineHeight: 1.2,
+              color: "#111827",
+            }}
+          >
+            {listing.title}
+          </h1>
+
+          <p
+            style={{
+              margin: "0 0 20px 0",
+              fontSize: "28px",
+              fontWeight: 700,
+              color: "#111827",
+            }}
+          >
+            ₺{listing.price}
+          </p>
+
+          <div
+            style={{
+              display: "grid",
+              gap: "12px",
+              marginBottom: "24px",
+              color: "#374151",
+              fontSize: "15px",
+            }}
+          >
+            <p style={{ margin: 0 }}>
+              <strong>Location:</strong> {listing.location ?? "N/A"}
+            </p>
+            <p style={{ margin: 0 }}>
+              <strong>Condition:</strong> {listing.condition ?? "N/A"}
+            </p>
+            <p style={{ margin: 0 }}>
+              <strong>Delivery:</strong> {listing.deliveryMethod ?? "N/A"}
+            </p>
+            <p style={{ margin: 0 }}>
+              <strong>Seller:</strong> {listing.sellerName ?? "N/A"}
+            </p>
+          </div>
+
+          <hr style={{ margin: "0 0 20px 0", borderColor: "#e5e7eb" }} />
+
+          <h2
+            style={{
+              margin: "0 0 12px 0",
+              fontSize: "20px",
+              color: "#111827",
+            }}
+          >
+            Description
+          </h2>
+
+          <p
+            style={{
+              margin: 0,
+              color: "#4b5563",
+              lineHeight: 1.7,
+            }}
+          >
+            {listing.description}
+          </p>
+        </div>
       </div>
-    </main>
+    </div>
   );
 }
