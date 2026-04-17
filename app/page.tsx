@@ -39,13 +39,13 @@ export default function HomePage() {
             <div className="flex flex-wrap items-center justify-center gap-4 mb-12">
               <Link
                 href="/listings"
-                className="clay-hover rounded-full bg-clay-black px-8 py-3.5 text-base font-medium text-white"
+                className="clay-hover rounded-xl bg-clay-black px-8 py-3.5 text-base font-medium text-white"
               >
                 Browse Listings
               </Link>
               <Link
                 href="/listings/create"
-                className="clay-hover rounded-full border border-clay-black bg-transparent px-8 py-3.5 text-base font-medium text-clay-black"
+                className="clay-hover rounded-xl border border-[#717989] bg-transparent px-8 py-3.5 text-base font-medium text-clay-black"
               >
                 Start Selling
               </Link>
@@ -57,7 +57,7 @@ export default function HomePage() {
                 <Link
                   key={category}
                   href={`/listings?category=${category.toLowerCase()}`}
-                  className="rounded-full border border-oat bg-white px-4 py-2 text-sm font-medium text-warm-charcoal transition hover:border-matcha-600 hover:text-matcha-600"
+                  className="rounded-3xl border border-oat bg-white px-4 py-2 text-sm font-medium text-warm-charcoal transition hover:border-matcha-600 hover:text-matcha-600"
                 >
                   {category}
                 </Link>

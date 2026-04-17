@@ -41,13 +41,13 @@ export default function CreateListingPage() {
           <div className="flex justify-end gap-4 mt-4">
             <button
               type="button"
-              className="rounded-full border border-oat px-6 py-2.5 text-sm font-medium text-warm-charcoal transition hover:border-clay-black hover:text-clay-black"
+              className="clay-hover rounded border border-[#717989] px-6 py-2.5 text-sm font-medium text-clay-black"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="clay-hover rounded-full bg-clay-black px-6 py-2.5 text-sm font-medium text-white"
+              className="clay-hover rounded-xl bg-clay-black px-6 py-2.5 text-sm font-medium text-white"
             >
               Publish Listing
             </button>

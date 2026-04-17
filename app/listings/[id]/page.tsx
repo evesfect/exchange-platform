@@ -93,7 +93,7 @@ export default function ListingDetailPage({
 
         {/* Details Card */}
         <div className="bg-white border border-oat rounded-3xl p-8 clay-shadow">
-          <span className="inline-block mb-4 px-3 py-1 rounded-full bg-oat-light text-xs font-semibold text-warm-charcoal border border-oat">
+          <span className="inline-block mb-4 px-3 py-1 rounded-[11px] bg-oat-light text-xs font-semibold text-warm-charcoal border border-oat">
             {listing.category ?? "General"}
           </span>
 

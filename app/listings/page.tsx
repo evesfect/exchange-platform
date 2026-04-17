@@ -105,7 +105,7 @@ export default function ListingsPage() {
       </div>
 
       {filteredListings.length === 0 ? (
-        <div className="border border-dashed border-oat rounded-3xl p-8 bg-white">
+        <div className="border border-dashed border-oat rounded-xl p-8 bg-white">
           <p className="text-warm-silver">
             No listings found for this category.
           </p>

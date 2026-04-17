@@ -87,8 +87,8 @@ body {
 .clay-input {
   width: 100%;
   padding: 10px 16px;
-  border: 1px solid var(--color-oat);
-  border-radius: 8px;
+  border: 1px solid #717989;
+  border-radius: 4px;
   font-size: 16px;
   font-family: inherit;
   background: white;

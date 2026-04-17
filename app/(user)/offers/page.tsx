@@ -9,7 +9,7 @@ export default function OffersPage() {
         </p>
       </div>
 
-      <div className="border border-dashed border-oat rounded-3xl p-12 text-center">
+      <div className="border border-dashed border-oat rounded-xl p-12 text-center">
         <p className="text-warm-silver">
           No offers yet. Your incoming offers will appear here.
         </p>

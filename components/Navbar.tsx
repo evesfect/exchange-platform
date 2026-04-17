@@ -59,7 +59,7 @@ export async function Navbar() {
 
           <Link
             href="/listings/create"
-            className="clay-hover rounded-full bg-clay-black px-5 py-2 text-sm font-medium text-white"
+            className="clay-hover rounded-xl bg-clay-black px-5 py-2 text-sm font-medium text-white"
           >
             Sell
           </Link>

@@ -11,7 +11,7 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      <div className="bg-matcha-300/15 border border-matcha-600/20 rounded-3xl p-6">
+      <div className="bg-matcha-300/15 border border-matcha-600/20 rounded-xl p-6">
         <h2 className="font-semibold text-lg text-matcha-800">
           Login Successful!
         </h2>

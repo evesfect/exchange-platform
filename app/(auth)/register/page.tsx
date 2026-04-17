@@ -53,7 +53,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={isPending}
-              className="clay-hover w-full rounded-full bg-clay-black py-3 text-base font-medium text-white disabled:opacity-50 mt-2"
+              className="clay-hover w-full rounded-xl bg-clay-black py-3 text-base font-medium text-white disabled:opacity-50 mt-2"
             >
               {isPending ? "Signing up..." : "Sign Up"}
             </button>

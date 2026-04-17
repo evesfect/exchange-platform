@@ -19,7 +19,7 @@ export default function ListingCard({ listing }: { listing: Listing }) {
       href={`/listings/${listing.id}`}
       className="block h-full no-underline group"
     >
-      <div className="h-full border border-oat rounded-3xl overflow-hidden bg-white clay-shadow transition-all duration-200 group-hover:-translate-y-1 group-hover:shadow-lg">
+      <div className="h-full border border-oat rounded-xl overflow-hidden bg-white clay-shadow transition-all duration-200 group-hover:-translate-y-1 group-hover:shadow-lg">
         {listing.imageUrl && (
           <img
             src={listing.imageUrl}
@@ -29,7 +29,7 @@ export default function ListingCard({ listing }: { listing: Listing }) {
         )}
 
         <div className="p-5">
-          <span className="inline-block mb-3 px-3 py-1 rounded-full bg-oat-light text-xs font-semibold text-warm-charcoal border border-oat">
+          <span className="inline-block mb-3 px-3 py-1 rounded-[11px] bg-oat-light text-xs font-semibold text-warm-charcoal border border-oat">
             {listing.category ?? "General"}
           </span>
 
