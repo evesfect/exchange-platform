@@ -1,22 +1,24 @@
 // app/layout.tsx
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Navbar } from "@/components/Navbar"; // <-- 1. Import the Navbar
+import { DM_Sans, Space_Mono } from "next/font/google";
+import { Navbar } from "@/components/Navbar";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const spaceMono = Space_Mono({
+  variable: "--font-space-mono",
   subsets: ["latin"],
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Exchange Platform",
-  description: "Exchange platform built with Next.js and HeroUI",
+  title: "MaviPazar — Istanbul Marketplace",
+  description: "Buy and sell pre-owned items across Istanbul",
 };
 
 export default function RootLayout({
@@ -25,14 +27,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
-    >
-      <body className="min-h-full flex flex-col text-foreground bg-background">
-        <Navbar /> {/* <-- 2. Render it above the children */}
-        
-        {/* Wrap children in a flex-grow div so the footer (if added later) pushes to the bottom */}
+    <html lang="en" className={`${dmSans.variable} ${spaceMono.variable}`}>
+      <body className="min-h-screen flex flex-col font-sans bg-cream text-clay-black antialiased">
+        <Navbar />
         <div className="flex-grow flex flex-col">
           {children}
         </div>

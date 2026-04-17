@@ -17,93 +17,35 @@ export default function ListingCard({ listing }: { listing: Listing }) {
   return (
     <Link
       href={`/listings/${listing.id}`}
-      style={{
-        textDecoration: "none",
-        color: "inherit",
-        display: "block",
-        height: "100%",
-      }}
+      className="block h-full no-underline group"
     >
-      <div
-        style={{
-          border: "1px solid #e5e7eb",
-          borderRadius: "16px",
-          overflow: "hidden",
-          background: "#ffffff",
-          cursor: "pointer",
-          boxShadow: "0 4px 14px rgba(0, 0, 0, 0.06)",
-          transition: "transform 0.2s ease, box-shadow 0.2s ease",
-          height: "100%",
-        }}
-      >
+      <div className="h-full border border-oat rounded-3xl overflow-hidden bg-white clay-shadow transition-all duration-200 group-hover:-translate-y-1 group-hover:shadow-lg">
         {listing.imageUrl && (
           <img
             src={listing.imageUrl}
             alt={listing.title}
-            style={{
-              width: "100%",
-              height: "220px",
-              objectFit: "cover",
-              display: "block",
-            }}
+            className="w-full h-[220px] object-cover block"
           />
         )}
 
-        <div style={{ padding: "16px" }}>
-          <div
-            style={{
-              display: "inline-block",
-              marginBottom: "10px",
-              padding: "4px 10px",
-              borderRadius: "999px",
-              background: "#f3f4f6",
-              fontSize: "12px",
-              fontWeight: 600,
-              color: "#374151",
-            }}
-          >
+        <div className="p-5">
+          <span className="inline-block mb-3 px-3 py-1 rounded-full bg-oat-light text-xs font-semibold text-warm-charcoal border border-oat">
             {listing.category ?? "General"}
-          </div>
+          </span>
 
-          <h3
-            style={{
-              margin: "0 0 10px 0",
-              fontSize: "18px",
-              lineHeight: 1.3,
-              color: "#111827",
-            }}
-          >
+          <h3 className="text-lg font-semibold leading-snug tracking-tight mb-2 text-clay-black">
             {listing.title}
           </h3>
 
-          <p
-            style={{
-              fontWeight: 700,
-              fontSize: "20px",
-              margin: "0 0 8px 0",
-              color: "#111827",
-            }}
-          >
+          <p className="text-xl font-bold mb-2 text-clay-black">
             ₺{listing.price}
           </p>
 
-          <p
-            style={{
-              margin: "0 0 8px 0",
-              color: "#4b5563",
-              fontSize: "14px",
-            }}
-          >
+          <p className="text-sm text-warm-charcoal mb-1">
             {listing.location}
           </p>
 
-          <p
-            style={{
-              margin: 0,
-              fontSize: "13px",
-              color: "#6b7280",
-            }}
-          >
+          <p className="text-xs text-warm-silver">
             {listing.condition ?? "N/A"} • {listing.deliveryMethod ?? "N/A"}
           </p>
         </div>

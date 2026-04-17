@@ -31,11 +31,7 @@ export default function ListingDetailPage({
       try {
         const resolvedParams = await params;
         const response = await fetch(`/api/listings/${resolvedParams.id}`);
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch listing");
-        }
-
+        if (!response.ok) throw new Error("Failed to fetch listing");
         const data = await response.json();
         setListing(data);
       } catch (err) {
@@ -45,169 +41,93 @@ export default function ListingDetailPage({
         setLoading(false);
       }
     }
-
     fetchListing();
   }, [params]);
 
   if (loading) {
     return (
-      <div style={{ padding: "32px", maxWidth: "1000px", margin: "0 auto" }}>
-        <p style={{ color: "#6b7280" }}>Loading listing...</p>
+      <div className="mx-auto max-w-5xl px-6 py-10">
+        <p className="text-warm-silver">Loading listing...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div style={{ padding: "32px", maxWidth: "1000px", margin: "0 auto" }}>
-        <p style={{ color: "#dc2626" }}>{error}</p>
+      <div className="mx-auto max-w-5xl px-6 py-10">
+        <p className="text-pomegranate-400">{error}</p>
       </div>
     );
   }
 
   if (!listing) {
     return (
-      <div style={{ padding: "32px", maxWidth: "1000px", margin: "0 auto" }}>
-        <p style={{ color: "#6b7280" }}>Listing not found.</p>
+      <div className="mx-auto max-w-5xl px-6 py-10">
+        <p className="text-warm-silver">Listing not found.</p>
       </div>
     );
   }
 
   return (
-    <div
-      style={{
-        maxWidth: "1000px",
-        margin: "0 auto",
-        padding: "32px 24px",
-      }}
-    >
-      <div style={{ marginBottom: "20px" }}>
+    <div className="mx-auto max-w-5xl px-6 py-10">
+      <div className="mb-6">
         <Link
           href="/listings"
-          style={{
-            textDecoration: "none",
-            color: "#2563eb",
-            fontSize: "14px",
-            fontWeight: 500,
-          }}
+          className="text-sm font-medium text-warm-charcoal hover:text-clay-black transition"
         >
           ← Back to listings
         </Link>
       </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1.2fr 1fr",
-          gap: "28px",
-          alignItems: "start",
-        }}
-      >
+      <div className="grid md:grid-cols-[1.2fr_1fr] gap-8 items-start">
+        {/* Image */}
         <div>
           {listing.imageUrl && (
             <img
               src={listing.imageUrl}
               alt={listing.title}
-              style={{
-                width: "100%",
-                maxHeight: "500px",
-                objectFit: "cover",
-                borderRadius: "18px",
-                display: "block",
-                boxShadow: "0 6px 18px rgba(0, 0, 0, 0.08)",
-              }}
+              className="w-full max-h-[500px] object-cover rounded-3xl block clay-shadow"
             />
           )}
         </div>
 
-        <div
-          style={{
-            border: "1px solid #e5e7eb",
-            borderRadius: "18px",
-            padding: "24px",
-            background: "#ffffff",
-            boxShadow: "0 4px 14px rgba(0, 0, 0, 0.05)",
-          }}
-        >
-          <div
-            style={{
-              display: "inline-block",
-              marginBottom: "12px",
-              padding: "5px 12px",
-              borderRadius: "999px",
-              background: "#f3f4f6",
-              fontSize: "12px",
-              fontWeight: 600,
-              color: "#374151",
-            }}
-          >
+        {/* Details Card */}
+        <div className="bg-white border border-oat rounded-3xl p-8 clay-shadow">
+          <span className="inline-block mb-4 px-3 py-1 rounded-full bg-oat-light text-xs font-semibold text-warm-charcoal border border-oat">
             {listing.category ?? "General"}
-          </div>
+          </span>
 
-          <h1
-            style={{
-              margin: "0 0 12px 0",
-              fontSize: "32px",
-              lineHeight: 1.2,
-              color: "#111827",
-            }}
-          >
+          <h1 className="text-[32px] font-semibold leading-tight tracking-[-0.64px] text-clay-black mb-3">
             {listing.title}
           </h1>
 
-          <p
-            style={{
-              margin: "0 0 20px 0",
-              fontSize: "28px",
-              fontWeight: 700,
-              color: "#111827",
-            }}
-          >
+          <p className="text-[28px] font-bold text-clay-black mb-6">
             ₺{listing.price}
           </p>
 
-          <div
-            style={{
-              display: "grid",
-              gap: "12px",
-              marginBottom: "24px",
-              color: "#374151",
-              fontSize: "15px",
-            }}
-          >
-            <p style={{ margin: 0 }}>
-              <strong>Location:</strong> {listing.location ?? "N/A"}
+          <div className="grid gap-3 mb-6 text-[15px] text-warm-charcoal">
+            <p>
+              <strong className="text-clay-black">Location:</strong>{" "}
+              {listing.location ?? "N/A"}
             </p>
-            <p style={{ margin: 0 }}>
-              <strong>Condition:</strong> {listing.condition ?? "N/A"}
+            <p>
+              <strong className="text-clay-black">Condition:</strong>{" "}
+              {listing.condition ?? "N/A"}
             </p>
-            <p style={{ margin: 0 }}>
-              <strong>Delivery:</strong> {listing.deliveryMethod ?? "N/A"}
+            <p>
+              <strong className="text-clay-black">Delivery:</strong>{" "}
+              {listing.deliveryMethod ?? "N/A"}
             </p>
-            <p style={{ margin: 0 }}>
-              <strong>Seller:</strong> {listing.sellerName ?? "N/A"}
+            <p>
+              <strong className="text-clay-black">Seller:</strong>{" "}
+              {listing.sellerName ?? "N/A"}
             </p>
           </div>
 
-          <hr style={{ margin: "0 0 20px 0", borderColor: "#e5e7eb" }} />
+          <hr className="border-oat mb-6" />
 
-          <h2
-            style={{
-              margin: "0 0 12px 0",
-              fontSize: "20px",
-              color: "#111827",
-            }}
-          >
-            Description
-          </h2>
-
-          <p
-            style={{
-              margin: 0,
-              color: "#4b5563",
-              lineHeight: 1.7,
-            }}
-          >
+          <div className="clay-label text-warm-silver mb-3">Description</div>
+          <p className="text-warm-charcoal leading-relaxed">
             {listing.description}
           </p>
         </div>
