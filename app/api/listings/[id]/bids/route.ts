@@ -20,6 +20,7 @@ export async function GET(
         id: bids.id,
         amount: bids.amount,
         createdAt: bids.createdAt,
+        userId: bids.userId,
         userEmail: users.email,
       })
       .from(bids)

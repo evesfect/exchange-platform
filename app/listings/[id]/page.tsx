@@ -28,6 +28,7 @@ type Bid = {
   id: number;
   amount: string;
   createdAt: string;
+  userId: number;
   userEmail: string;
 };
 
@@ -237,11 +238,22 @@ export default function ListingDetailPage({
         )}
 
         {isOwner && listing.biddingStartsAt && (
-          <p className="text-sm text-warm-charcoal mb-4">
-            You set the bidding period from{" "}
-            <strong>{new Date(listing.biddingStartsAt).toLocaleString()}</strong> to{" "}
-            <strong>{new Date(listing.biddingEndsAt!).toLocaleString()}</strong>
-          </p>
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-sm text-warm-charcoal">
+              You set the bidding period from{" "}
+              <strong>{new Date(listing.biddingStartsAt).toLocaleString()}</strong> to{" "}
+              <strong>{new Date(listing.biddingEndsAt!).toLocaleString()}</strong>
+            </p>
+            <button
+              onClick={async () => {
+                const res = await fetch(`/api/listings/${listing.id}/bidding`, { method: "DELETE" });
+                if (res.ok) window.location.reload();
+              }}
+              className="text-sm text-red-500 hover:text-red-700 font-medium px-3 py-1.5 rounded-lg border border-red-200 hover:border-red-300 transition"
+            >
+              Cancel Bidding
+            </button>
+          </div>
         )}
 
         {/* Non-owner: Place bid */}
@@ -261,7 +273,12 @@ export default function ListingDetailPage({
         {/* All users: Show bids */}
         {listing.biddingStartsAt && (
           <div className="mt-6">
-            <BidsList bids={bids} />
+            <BidsList
+              bids={bids}
+              currentUserId={currentUserId}
+              listingId={listing.id}
+              onBidCancelled={fetchBids}
+            />
           </div>
         )}
 
