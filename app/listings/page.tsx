@@ -14,6 +14,8 @@ type Listing = {
   deliveryMethod: string | null;
   sellerName: string | null;
   location: string | null;
+  biddingStartsAt: string | null;
+  biddingEndsAt: string | null;
   createdAt: string;
 };
 
