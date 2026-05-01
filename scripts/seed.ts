@@ -5,7 +5,7 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import { config } from "dotenv";
-import { users, listings } from "../lib/schema";
+import { users, listings, bids } from "../lib/schema";
 import { hash } from "bcryptjs";
 
 config({ path: ".env.local" });
@@ -145,20 +145,27 @@ const sampleListings = [
 async function seed() {
   console.log("Seeding database...");
 
-  // Clear existing data (listings first due to no FK, but order defensively)
+  // Clear existing data
+  await db.delete(bids);
   await db.delete(listings);
   await db.delete(users);
   console.log("Cleared existing data");
 
   // Insert users
+  const insertedUsers: { id: number; email: string }[] = [];
   for (const u of sampleUsers) {
     const passwordHash = await hash(u.password, 10);
-    await db.insert(users).values({ email: u.email, passwordHash });
+    const [user] = await db.insert(users).values({ email: u.email, passwordHash }).returning();
+    insertedUsers.push(user);
   }
   console.log(`Inserted ${sampleUsers.length} users`);
 
-  // Insert listings
-  await db.insert(listings).values(sampleListings);
+  // Insert listings with userId assignment
+  const listingsWithUsers = sampleListings.map((listing, i) => ({
+    ...listing,
+    userId: insertedUsers[i % insertedUsers.length].id,
+  }));
+  await db.insert(listings).values(listingsWithUsers);
   console.log(`Inserted ${sampleListings.length} listings`);
 
   console.log("Seed complete!");
