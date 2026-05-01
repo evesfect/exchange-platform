@@ -1,29 +1,111 @@
 @import "tailwindcss";
-@import "@heroui/styles";
 
-/* Keep your existing root and theme variables below this! 
-*/
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ─── Clay Design System ─── */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Primary */
+  --color-cream: #faf9f7;
+  --color-clay-black: #000000;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Neutrals (warm) */
+  --color-warm-silver: #9f9b93;
+  --color-warm-charcoal: #55534e;
+  --color-dark-charcoal: #333333;
+
+  /* Borders & surfaces */
+  --color-oat: #dad4c8;
+  --color-oat-light: #eee9df;
+
+  /* Matcha (green) */
+  --color-matcha-300: #84e7a5;
+  --color-matcha-600: #078a52;
+  --color-matcha-800: #02492a;
+
+  /* Slushie (cyan) */
+  --color-slushie-500: #3bd3fd;
+  --color-slushie-800: #0089ad;
+
+  /* Lemon (gold) */
+  --color-lemon-400: #f8cc65;
+  --color-lemon-500: #fbbd41;
+  --color-lemon-700: #d08a11;
+  --color-lemon-800: #9d6a09;
+
+  /* Ube (purple) */
+  --color-ube-300: #c1b0ff;
+  --color-ube-800: #43089f;
+  --color-ube-900: #32037d;
+
+  /* Pomegranate (pink) */
+  --color-pomegranate-400: #fc7981;
+
+  /* Blueberry (navy) */
+  --color-blueberry-800: #01418d;
+
+  /* Badge */
+  --color-badge-blue-bg: #f0f8ff;
+  --color-badge-blue-text: #3859f9;
+
+  /* Fonts */
+  --font-sans: var(--font-dm-sans, "DM Sans"), Arial, sans-serif;
+  --font-mono: var(--font-space-mono, "Space Mono"), monospace;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-cream);
+  color: var(--color-clay-black);
+}
+
+/* ─── Clay Shadow (multi-layer with inset highlight) ─── */
+.clay-shadow {
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 1px 1px,
+    rgba(0, 0, 0, 0.04) 0px -1px 1px inset,
+    rgba(0, 0, 0, 0.05) 0px -0.5px 1px;
+}
+
+/* ─── Playful Clay hover ─── */
+.clay-hover {
+  transition: transform 0.25s ease, box-shadow 0.25s ease,
+    background-color 0.25s ease, color 0.25s ease;
+}
+.clay-hover:hover {
+  transform: rotateZ(-8deg) translateY(-4px);
+  box-shadow: rgb(0, 0, 0) -7px 7px;
+}
+
+/* ─── Uppercase wayfinding label ─── */
+.clay-label {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 1.08px;
+  text-transform: uppercase;
+}
+
+/* ─── Clay input ─── */
+.clay-input {
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid #717989;
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: inherit;
+  background: white;
+  color: var(--color-clay-black);
+  transition: border-color 0.2s ease;
+}
+.clay-input:focus {
+  outline: rgb(20, 110, 245) solid 2px;
+  outline-offset: 0px;
+  border-color: transparent;
+}
+.clay-input::placeholder {
+  color: var(--color-warm-silver);
+}
+
+/* ─── Focus ring ─── */
+:focus-visible {
+  outline: rgb(20, 110, 245) solid 2px;
+  outline-offset: 2px;
 }
