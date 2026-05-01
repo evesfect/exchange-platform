@@ -1,10 +1,25 @@
 // components/Navbar.tsx
 import Link from "next/link";
 import { getSession } from "@/lib/session";
-import { logoutUser } from "@/app/actions/auth";
+import UserMenu from "@/components/UserMenu";
+import { db } from "@/lib/db";
+import { users } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 
 export async function Navbar() {
   const session = await getSession();
+  let userInitial = "U";
+
+if (session?.userId) {
+  const userRecord = await db
+    .select()
+    .from(users)
+    .where(eq(users.id, Number(session.userId)));
+
+  if (userRecord.length > 0) {
+    userInitial = userRecord[0].email.charAt(0).toUpperCase();
+  }
+}
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-oat bg-cream/95 backdrop-blur-sm">
@@ -24,22 +39,7 @@ export async function Navbar() {
           </Link>
 
           {session ? (
-            <>
-              <Link
-                href="/dashboard"
-                className="text-[15px] font-medium text-clay-black transition hover:text-matcha-600"
-              >
-                Dashboard
-              </Link>
-              <form action={logoutUser}>
-                <button
-                  type="submit"
-                  className="text-[15px] font-medium text-warm-charcoal transition hover:text-clay-black"
-                >
-                  Log Out
-                </button>
-              </form>
-            </>
+            <UserMenu initial={userInitial} />
           ) : (
             <>
               <Link
