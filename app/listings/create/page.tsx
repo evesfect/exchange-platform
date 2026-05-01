@@ -1,30 +1,59 @@
-import { Button, Input, Card } from "@heroui/react";
-
 export default function CreateListingPage() {
   return (
-    <main className="max-w-3xl mx-auto p-10 w-full">
-      <h1 className="text-3xl font-bold mb-6">Create a New Listing</h1>
-      <Card className="p-4">
-        <div className="flex flex-col gap-6 p-4">
-          <div className="space-y-1">
-            <label className="text-sm font-medium">Title</label>
-            <Input placeholder="What are you offering?" />
+    <main className="mx-auto max-w-3xl w-full px-6 py-10">
+      <div className="mb-8">
+        <div className="clay-label text-warm-silver mb-2">New listing</div>
+        <h1 className="text-3xl font-semibold tracking-tight">
+          Create a Listing
+        </h1>
+      </div>
+
+      <div className="bg-white border border-oat rounded-3xl p-8 clay-shadow">
+        <form className="flex flex-col gap-6">
+          <div className="space-y-1.5">
+            <label className="clay-label text-warm-charcoal">Title</label>
+            <input
+              placeholder="What are you offering?"
+              className="clay-input"
+            />
           </div>
-          <div className="space-y-1">
-            <label className="text-sm font-medium">Description</label>
-            <Input placeholder="Describe the item condition, history, etc." />
+
+          <div className="space-y-1.5">
+            <label className="clay-label text-warm-charcoal">
+              Description
+            </label>
+            <textarea
+              placeholder="Describe the item condition, history, etc."
+              rows={4}
+              className="clay-input resize-none"
+            />
           </div>
-          <div className="space-y-1">
-            <label className="text-sm font-medium">Estimated Value ($)</label>
-            <Input placeholder="0.00" type="number" />
+
+          <div className="space-y-1.5">
+            <label className="clay-label text-warm-charcoal">Price (₺)</label>
+            <input
+              placeholder="0.00"
+              type="number"
+              className="clay-input"
+            />
           </div>
-          
+
           <div className="flex justify-end gap-4 mt-4">
-            <Button variant="secondary">Cancel</Button>
-            <Button variant="primary">Publish Listing</Button>
+            <button
+              type="button"
+              className="clay-hover rounded border border-[#717989] px-6 py-2.5 text-sm font-medium text-clay-black"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="clay-hover rounded-xl bg-clay-black px-6 py-2.5 text-sm font-medium text-white"
+            >
+              Publish Listing
+            </button>
           </div>
-        </div>
-      </Card>
+        </form>
+      </div>
     </main>
   );
 }

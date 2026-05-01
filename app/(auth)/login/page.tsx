@@ -1,51 +1,73 @@
 // app/(auth)/login/page.tsx
-'use client';
+"use client";
 
-import { Button, Input, Card } from "@heroui/react";
 import Link from "next/link";
 import { loginUser } from "@/app/actions/auth";
 import { useActionState } from "react";
 
 export default function LoginPage() {
-  // Hook up the server action to track its state and pending status
   const [state, formAction, isPending] = useActionState(loginUser, null);
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-4">
-      <Card className="w-full max-w-md p-4">
-        <div className="flex flex-col items-center pb-4 pt-2 px-4">
-          <h1 className="text-2xl font-bold">Welcome Back</h1>
-          <p className="text-default-500 text-sm">Log in to manage your exchanges</p>
+    <main className="flex min-h-[80vh] items-center justify-center px-4">
+      <div className="w-full max-w-md">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-semibold tracking-tight mb-2">
+            Welcome back
+          </h1>
+          <p className="text-warm-silver">Log in to manage your exchanges</p>
         </div>
-        
-        {/* Use the new formAction */}
-        <form action={formAction} className="flex flex-col gap-4 px-4 pb-4">
-          
-          {/* Display the error if the server action returns one */}
-          {state?.error && (
-            <div className="bg-danger/10 text-danger text-sm p-3 rounded-md font-medium">
-              {state.error}
-            </div>
-          )}
 
-          <div className="space-y-1">
-            <label className="text-sm font-medium">Email</label>
-            <Input name="email" placeholder="Enter your email" type="email" required />
-          </div>
-          <div className="space-y-1">
-            <label className="text-sm font-medium">Password</label>
-            <Input name="password" placeholder="Enter your password" type="password" required />
-          </div>
-          
-          <Button type="submit" variant="primary" className="w-full mt-2" isDisabled={isPending}>
-            {isPending ? "Logging in..." : "Log In"}
-          </Button>
-          
-          <div className="text-center text-sm mt-4">
-            Don't have an account? <Link href="/register" className="text-blue-500 hover:underline">Sign up</Link>
-          </div>
-        </form>
-      </Card>
+        <div className="bg-white border border-oat rounded-3xl p-8 clay-shadow">
+          <form action={formAction} className="flex flex-col gap-5">
+            {state?.error && (
+              <div className="bg-pomegranate-400/10 text-pomegranate-400 text-sm p-3 rounded-xl font-medium border border-pomegranate-400/20">
+                {state.error}
+              </div>
+            )}
+
+            <div className="space-y-1.5">
+              <label className="clay-label text-warm-charcoal">Email</label>
+              <input
+                name="email"
+                placeholder="Enter your email"
+                type="email"
+                required
+                className="clay-input"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="clay-label text-warm-charcoal">Password</label>
+              <input
+                name="password"
+                placeholder="Enter your password"
+                type="password"
+                required
+                className="clay-input"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isPending}
+              className="clay-hover w-full rounded-xl bg-clay-black py-3 text-base font-medium text-white disabled:opacity-50 mt-2"
+            >
+              {isPending ? "Logging in..." : "Log In"}
+            </button>
+
+            <p className="text-center text-sm text-warm-silver mt-2">
+              Don&apos;t have an account?{" "}
+              <Link
+                href="/register"
+                className="text-clay-black font-medium hover:text-matcha-600 transition"
+              >
+                Sign up
+              </Link>
+            </p>
+          </form>
+        </div>
+      </div>
     </main>
   );
 }
