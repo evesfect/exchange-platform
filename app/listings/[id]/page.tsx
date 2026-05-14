@@ -6,6 +6,7 @@ import Countdown from "@/components/Countdown";
 import SetBiddingForm from "@/components/SetBiddingForm";
 import PlaceBidForm from "@/components/PlaceBidForm";
 import BidsList from "@/components/BidsList";
+import ListingChat from "@/components/ListingChat";
 
 type Listing = {
   id: number;
@@ -207,23 +208,30 @@ export default function ListingDetailPage({
             {biddingActive && (
               <>
                 <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-sm font-medium text-emerald-600">Bidding Active</span>
+                <span className="text-sm font-medium text-emerald-600">
+                  Bidding Active
+                </span>
                 <span className="mx-2 text-warm-silver">•</span>
                 <Countdown endsAt={listing.biddingEndsAt} />
               </>
             )}
+
             {biddingScheduled && (
               <>
                 <span className="inline-block w-2 h-2 rounded-full bg-amber-500" />
                 <span className="text-sm font-medium text-amber-600">
-                  Bidding starts {new Date(listing.biddingStartsAt!).toLocaleString()}
+                  Bidding starts{" "}
+                  {new Date(listing.biddingStartsAt!).toLocaleString()}
                 </span>
               </>
             )}
+
             {biddingEnded && (
               <>
                 <span className="inline-block w-2 h-2 rounded-full bg-red-400" />
-                <span className="text-sm font-medium text-red-500">Bidding Ended</span>
+                <span className="text-sm font-medium text-red-500">
+                  Bidding Ended
+                </span>
               </>
             )}
           </div>
@@ -241,12 +249,21 @@ export default function ListingDetailPage({
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm text-warm-charcoal">
               You set the bidding period from{" "}
-              <strong>{new Date(listing.biddingStartsAt).toLocaleString()}</strong> to{" "}
-              <strong>{new Date(listing.biddingEndsAt!).toLocaleString()}</strong>
+              <strong>
+                {new Date(listing.biddingStartsAt).toLocaleString()}
+              </strong>{" "}
+              to{" "}
+              <strong>
+                {new Date(listing.biddingEndsAt!).toLocaleString()}
+              </strong>
             </p>
+
             <button
               onClick={async () => {
-                const res = await fetch(`/api/listings/${listing.id}/bidding`, { method: "DELETE" });
+                const res = await fetch(`/api/listings/${listing.id}/bidding`, {
+                  method: "DELETE",
+                });
+
                 if (res.ok) window.location.reload();
               }}
               className="text-sm text-red-500 hover:text-red-700 font-medium px-3 py-1.5 rounded-lg border border-red-200 hover:border-red-300 transition"
@@ -283,9 +300,37 @@ export default function ListingDetailPage({
         )}
 
         {!listing.biddingStartsAt && !isOwner && (
-          <p className="text-sm text-warm-silver">No bidding available for this listing yet.</p>
+          <p className="text-sm text-warm-silver">
+            No bidding available for this listing yet.
+          </p>
+        )}
+
+        {/* Live Chat */}
+        {listing.biddingStartsAt && currentUserId && (
+          <div className="mt-8">
+            <ListingChat
+              listingId={listing.id}
+              currentUserId={currentUserId}
+            />
+          </div>
+        )}
+
+        {listing.biddingStartsAt && !currentUserId && (
+          <div className="mt-8 rounded-2xl border border-oat bg-oat-light p-5">
+            <h2 className="text-lg font-semibold text-clay-black">
+              Live Chat for Current Bidding
+            </h2>
+            <p className="mt-2 text-sm text-warm-charcoal">
+              Please{" "}
+              <Link href="/login" className="font-medium underline text-clay-black">
+                log in
+              </Link>{" "}
+              to join the bidding chat.
+            </p>
+          </div>
         )}
       </div>
+      
     </div>
   );
 }

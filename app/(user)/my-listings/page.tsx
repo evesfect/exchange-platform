@@ -1,9 +1,12 @@
+// app/(user)/my-listings/page.tsx
+
 import { redirect } from "next/navigation";
+import Link from "next/link";
+import { eq } from "drizzle-orm";
+
 import { db } from "@/lib/db";
 import { users, listings } from "@/lib/schema";
 import { getSession } from "@/lib/session";
-import { eq } from "drizzle-orm";
-import Link from "next/link";
 
 function getDisplayName(email: string) {
   const name = email.split("@")[0];
@@ -36,16 +39,19 @@ export default async function MyListingsPage() {
 
   return (
     <main className="mx-auto max-w-5xl w-full px-6 py-10">
-        <div className="mb-6 text-sm text-warm-silver">
-            <Link href="/dashboard" className="hover:text-clay-black">
-                Dashboard
-            </Link>
-            <span className="mx-2">/</span>
-            <span>My Listings</span>
-        </div>
+      <div className="mb-6 text-sm text-warm-silver">
+        <Link href="/dashboard" className="hover:text-clay-black">
+          Dashboard
+        </Link>
+        <span className="mx-2">/</span>
+        <span>My Listings</span>
+      </div>
+
       <div className="border-b border-oat pb-6 mb-8">
         <div className="clay-label text-warm-silver mb-2">Account</div>
+
         <h1 className="text-3xl font-semibold tracking-tight">My Listings</h1>
+
         <p className="text-warm-silver mt-1">
           Products listed by {sellerName}.
         </p>
@@ -58,9 +64,10 @@ export default async function MyListingsPage() {
       ) : (
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {myListings.map((item) => (
-            <div
+            <Link
               key={item.id}
-              className="border border-oat rounded-xl p-5 bg-white"
+              href={`/listings/${item.id}`}
+              className="block border border-oat rounded-xl p-5 bg-white transition hover:-translate-y-1 hover:shadow-md hover:border-clay-black"
             >
               <div className="clay-label text-warm-silver mb-2">
                 {item.category}
@@ -77,7 +84,7 @@ export default async function MyListingsPage() {
               <p className="text-sm text-warm-silver mt-1">
                 {item.condition} • {item.deliveryMethod}
               </p>
-            </div>
+            </Link>
           ))}
         </section>
       )}

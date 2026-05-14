@@ -1,3 +1,5 @@
+// components/UserMenu.tsx
+
 import Link from "next/link";
 import { logoutUser } from "@/app/actions/auth";
 
@@ -17,15 +19,12 @@ const menuItems = [
 
 export default function UserMenu({ initial }: UserMenuProps) {
   return (
-    <div className="relative group">
-      <button
-        type="button"
-        className="h-11 w-11 rounded-full bg-oat flex items-center justify-center font-semibold hover:bg-oat/70 transition"
-      >
+    <details className="relative">
+      <summary className="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-full bg-oat font-semibold transition hover:bg-oat/70 [&::-webkit-details-marker]:hidden">
         {initial}
-      </button>
+      </summary>
 
-      <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 absolute right-0 top-11 z-50 w-56 rounded-xl border border-oat bg-white shadow-lg p-2 transition">
+      <div className="absolute right-0 top-12 z-50 w-56 rounded-xl border border-oat bg-white p-2 shadow-lg">
         {menuItems.map((item) => (
           <Link
             key={item.title}
@@ -36,15 +35,17 @@ export default function UserMenu({ initial }: UserMenuProps) {
           </Link>
         ))}
 
+        <div className="my-2 border-t border-oat" />
+
         <form action={logoutUser}>
           <button
             type="submit"
-            className="w-full text-left rounded-lg px-4 py-2 text-sm hover:bg-oat/40 text-pomegranate-400"
+            className="w-full rounded-lg px-4 py-2 text-left text-sm text-pomegranate-400 hover:bg-oat/40"
           >
             Log Out
           </button>
         </form>
       </div>
-    </div>
+    </details>
   );
 }
