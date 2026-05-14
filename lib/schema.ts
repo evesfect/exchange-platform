@@ -40,3 +40,19 @@ export const passwordResetTokens = pgTable("password_reset_tokens", {
   expiresAt: timestamp("expires_at").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+export const chatMessages = pgTable("chat_messages", {
+  id: serial("id").primaryKey(),
+
+  listingId: integer("listing_id")
+    .notNull()
+    .references(() => listings.id, { onDelete: "cascade" }),
+
+  senderId: integer("sender_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+
+  message: text("message").notNull(),
+
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
