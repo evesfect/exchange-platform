@@ -56,3 +56,16 @@ export const chatMessages = pgTable("chat_messages", {
 
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+export const sellerReviews = pgTable("seller_reviews", {
+  id: serial("id").primaryKey(),
+  reviewerId: integer("reviewer_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  sellerId: integer("seller_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  rating: integer("rating").notNull(),
+  comment: text("comment"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});

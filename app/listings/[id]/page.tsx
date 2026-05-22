@@ -7,6 +7,8 @@ import SetBiddingForm from "@/components/SetBiddingForm";
 import PlaceBidForm from "@/components/PlaceBidForm";
 import BidsList from "@/components/BidsList";
 import ListingChat from "@/components/ListingChat";
+import ReviewForm from "@/components/ReviewForm";
+import ReviewsList from "@/components/ReviewsList";
 
 type Listing = {
   id: number;
@@ -44,6 +46,7 @@ export default function ListingDetailPage({
   const [currentUserId, setCurrentUserId] = useState<number | null>(null);
   const [bids, setBids] = useState<Bid[]>([]);
   const [resolvedId, setResolvedId] = useState<string>("");
+  const [reviewRefreshTrigger, setReviewRefreshTrigger] = useState(0);
 
   useEffect(() => {
     async function fetchSession() {
@@ -187,7 +190,16 @@ export default function ListingDetailPage({
             </p>
             <p>
               <strong className="text-clay-black">Seller:</strong>{" "}
-              {listing.sellerName ?? "N/A"}
+              {listing.userId ? (
+                <Link
+                  href={`/sellers/${listing.userId}`}
+                  className="text-blue-600 hover:text-blue-800 underline font-medium"
+                >
+                  {listing.sellerName ?? "N/A"}
+                </Link>
+              ) : (
+                listing.sellerName ?? "N/A"
+              )}
             </p>
           </div>
 
@@ -330,7 +342,54 @@ export default function ListingDetailPage({
           </div>
         )}
       </div>
-      
+
+      {/* Seller Reviews Section */}
+      {listing.userId && (
+        <div className="mt-8 bg-white border border-oat rounded-3xl p-8 clay-shadow">
+          <h2 className="text-2xl font-semibold text-clay-black mb-6">
+            Seller Reviews
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Review Form */}
+            <div>
+              {currentUserId && !isOwner && (
+                <ReviewForm
+                  sellerId={listing.userId}
+                  onReviewSubmitted={() => setReviewRefreshTrigger(prev => prev + 1)}
+                />
+              )}
+              {!currentUserId && (
+                <div className="bg-oat-light border border-oat rounded-lg p-6 text-center">
+                  <p className="text-warm-charcoal">
+                    Please{" "}
+                    <Link href="/login" className="font-medium underline text-clay-black">
+                      log in
+                    </Link>{" "}
+                    to leave a review for this seller.
+                  </p>
+                </div>
+              )}
+              {isOwner && (
+                <div className="bg-oat-light border border-oat rounded-lg p-6 text-center">
+                  <p className="text-warm-charcoal">
+                    You cannot review your own listing.
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Reviews List */}
+            <div>
+              <ReviewsList
+                sellerId={listing.userId}
+                refreshTrigger={reviewRefreshTrigger}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
